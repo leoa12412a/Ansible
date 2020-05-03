@@ -37,7 +37,6 @@ $ sudo add-apt-repository -y ppa:ansible/ansible; sudo apt-get update
 ```
 $ sudo apt-get install -y ansible
 ```
-<br>
 
 ##### CentOS (Yum)
 1. 新增 epel-release 第三方套件來源。 
@@ -48,7 +47,7 @@ $ sudo yum install -y epel-release
 ```
 $ sudo yum install -y ansible
 ```
-<br>
+
 ##### Python (Pip)
 Ansible 近來的釋出速度很快，若想追求較新的版本可改用 Pip 的方式進行安裝，較不建議初學者使用。
 
