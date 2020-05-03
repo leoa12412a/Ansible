@@ -211,4 +211,5 @@ ansible-playbook playbook.yml
 
 ## 參考文獻
 <a href="https://chusiang.gitbooks.io/automate-with-ansible/">凍仁翔的《現代 IT 人一定要知道的 Ansible 自動化組態技巧》</a>
+<br>
 <a href="https://ansible.tw/#!docs/presentation.md">Ansible 台灣使用者社群</a>
