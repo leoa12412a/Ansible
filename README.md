@@ -38,6 +38,7 @@ $ sudo add-apt-repository -y ppa:ansible/ansible; sudo apt-get update
 $ sudo apt-get install -y ansible
 ```
 <br>
+
 ##### CentOS (Yum)
 1. 新增 epel-release 第三方套件來源。 
 ```
