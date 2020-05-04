@@ -162,7 +162,7 @@ sudo service ssh restart
 ```
 ansible 'Your group name' -m command -a 'Your command'
 ```
-![image](img/2.PNG)
+![image](img/2.PNG)<>
 如上圖中桃紅色提示文字是希望使用者使用Ansible的模組而不是用命令，若想關閉此警告可以在ansible.cfg裡的command_warnings=False關閉
 
 
