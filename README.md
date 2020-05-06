@@ -208,6 +208,87 @@ playbook.yml的檔案可以放在任何地方
 ansible-playbook playbook.yml
 ```
 ![image](img/3.PNG)
+<br>
+
+### 使用命令並回傳結果
+test.yml↓
+```
+- hosts: node
+  tasks:
+    # task 1
+    - name: show me whoami
+      command: echo HelloWorld
+      register: result
+    - debug: msg="{{ result}}"
+```
+
+呼叫結果
+```
+TASK [debug] *****************************************************************************
+ok: [node56] => {
+    "msg": {
+        "changed": true,
+        "cmd": [
+            "echo",
+            "HelloWorld"
+        ],
+        "delta": "0:00:00.005076",
+        "end": "2020-05-06 21:27:49.647860",
+        "failed": false,
+        "rc": 0,
+        "start": "2020-05-06 21:27:49.642784",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "HelloWorld",
+        "stdout_lines": [
+            "HelloWorld"
+        ]
+    }
+}
+ok: [node57] => {
+    "msg": {
+        "changed": true,
+        "cmd": [
+            "echo",
+            "HelloWorld"
+        ],
+        "delta": "0:00:00.002723",
+        "end": "2020-05-06 21:27:49.567470",
+        "failed": false,
+        "rc": 0,
+        "start": "2020-05-06 21:27:49.564747",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "HelloWorld",
+        "stdout_lines": [
+            "HelloWorld"
+        ]
+    }
+}
+```
+
+也可以只回傳結果
+test.yml↓
+```
+- hosts: node
+  tasks:
+    # task 1
+    - name: show me whoami
+      command: echo HelloWorld
+      register: result
+    - debug: msg="{{ result.stdout }}"
+```
+
+產生結果
+```
+TASK [debug] *****************************************************************************
+ok: [node56] => {
+    "msg": "HelloWorld"
+}
+ok: [node57] => {
+    "msg": "HelloWorld"
+}
+```
 
 ## 參考文獻
 <a href="https://chusiang.gitbooks.io/automate-with-ansible/">凍仁翔的《現代 IT 人一定要知道的 Ansible 自動化組態技巧》</a>
