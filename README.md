@@ -347,6 +347,76 @@ node57                     : ok=1    changed=0    unreachable=0    failed=1    s
 
 ```
 
+## Ansible Roles
+
+### 什麼是Roles?
+在playbook裡雖然把每個功能用tasks分割出來但是還是無法讓不同的playbook使用，而roles以目前的理解大概像是library的概念，把好幾個功能結合成一個大功能並封裝成roles供playbook使用，且roles在<a href="https://galaxy.ansible.com/">Ansible-galaxy</a>裡也有非常多使用者撰寫好的roles，就像是vagrant的cloud跟docker的hub。
+
+### Roles的目錄結構
+
+最簡單的Roles只需要
+```
+└── example_role
+    └── tasks
+        └── main.yml  # 主要的功能
+```
+
+基本架構如下
+```
+└── example_role
+    ├── README.md     # 說明文件
+    ├── defaults
+    │   └── main.yml  # 可被覆寫的變數。
+    ├── files         # 需複製到 Managed node 的檔案。
+    ├── handlers
+    │   └── main.yml  # 主要的 handler。
+    ├── meta
+    │   └── main.yml
+    ├── tasks
+    │   └── main.yml  # 主要的功能
+    ├── templates     # 集中存放 Jinja2 模板的目錄。
+    ├── tests
+    │   ├── inventory
+    │   └── test.yml
+    └── vars
+        └── main.yml  # 自訂義且不該被複寫的變數
+```
+
+### Roles的Hello World
+
+首先在/roles/myfirst-roles/tasks下新增一個main.yml
+```
+myplaybook.yml
+roles
+  └── myfirst-roles
+        └── tasks
+             └── main.yml  # 新增
+```
+在main.yml寫入，使用yum安裝最新版本的httpd
+```
+- name: install the latest version of Apache
+  yum:
+    name: httpd
+    state: latest
+```
+再來在最上層的myplaybook.yml呼叫roles，become代表是否使用管理員權限執行，相當於sudo
+```
+- hosts: node
+  roles:
+    - { role: myfirst-roles, become: yes }
+```
+
+### Roles Galaxy
+如何安裝Galaxy裡的Roles
+```
+ansible-galaxy install + Role 名稱
+```
+-p可以存放指定位置，若沒有指定則會在當前路徑下產生一個roles資料夾
+
+```
+ansible-galaxy install -p + 存放路徑 + Role 名稱
+```
+
 ## 參考文獻
 <a href="https://chusiang.gitbooks.io/automate-with-ansible/">凍仁翔的《現代 IT 人一定要知道的 Ansible 自動化組態技巧》</a>
 <br>
