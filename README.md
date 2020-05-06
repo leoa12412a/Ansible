@@ -354,13 +354,10 @@ node57                     : ok=1    changed=0    unreachable=0    failed=1    s
 
 ### Roles的目錄結構
 
-最簡單的Roles只需要
+初始化roles
 ```
-└── example_role
-    └── tasks
-        └── main.yml  # 主要的功能
+ansible-galaxy init you_roles_name
 ```
-
 基本架構如下
 ```
 └── example_role
