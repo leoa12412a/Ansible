@@ -267,8 +267,7 @@ ok: [node57] => {
 }
 ```
 
-也可以只回傳結果
-test.yml↓
+也可以只回傳結果 test.yml↓
 ```
 - hosts: node
   tasks:
@@ -288,6 +287,64 @@ ok: [node56] => {
 ok: [node57] => {
     "msg": "HelloWorld"
 }
+```
+
+### 設置中斷點
+
+除了透過 debug 將結果印出之外，你也可以利用 fail 設立一些關鍵的「中斷點」。
+fail 顧名思義它就是一定會 failed 的 task，因此你可以搭配 when 藉此在 playbook 中巧妙地安插中斷點。
+
+test.yml↓
+```
+- hosts: node
+  tasks:
+    # task 1
+    - name: show me whoami
+      command: whoami
+      register: result
+    - fail: msg="something wrong !!!"
+      when: result is not defined
+```
+
+產生結果，skipping表示通過
+```
+TASK [show me whoami] ********************************************************************
+changed: [node57]
+changed: [node56]
+
+TASK [fail] ******************************************************************************
+skipping: [node56]
+skipping: [node57]
+```
+
+執行結果失敗test.yml↓
+```
+- hosts: node
+  tasks:
+    # task 1
+    - name: git status #被控端沒有git
+      command: git status
+      register: result
+    - fail: msg="something wrong !!!"
+      when: result is not defined
+
+    # task 2
+    - name: show me whoami
+      command: whoami
+      register: result2
+    - debug: msg="{{ result2.stdout }}" 
+```
+
+產生結果，在git status的task就因錯誤而停止
+```
+TASK [git status] ************************************************************************
+fatal: [node57]: FAILED! => {"changed": false, "cmd": "git status", "msg": "[Errno 2] 沒有此一檔案或目錄", "rc": 2}
+fatal: [node56]: FAILED! => {"changed": false, "cmd": "git status", "msg": "[Errno 2] 沒有此一檔案或目錄", "rc": 2}
+
+PLAY RECAP *******************************************************************************
+node56                     : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+node57                     : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
 ```
 
 ## 參考文獻
