@@ -414,6 +414,63 @@ ansible-galaxy install + Role 名稱
 ansible-galaxy install -p + 存放路徑 + Role 名稱
 ```
 
+### 使用Ansible Vault管理敏感資料
+Vault 是什麼？
+Vault 就字面上的意義有地窖、保險庫的意思。在 Ansible 裡是指加密、解密檔案的技術。
+Ansible 從 v1.5 開始支援此功能，預設使用 AES 加密技術，其詳細說明可參考 Vault | Ansible Documentation 官方文件。
+
+建立加密 (Encrypted) 檔案。
+```
+$ ansible-vault create foo.yml
+```
+
+編輯加密檔案內容。
+```
+$ ansible-vault edit foo.yml
+```
+
+更換加密金鑰 (密碼)。
+```
+$ ansible-vault rekey foo.yml
+```
+
+對已存在的明文檔案進行加密
+```
+$ ansible-vault encrypt foo.yml
+```
+
+解開 (Decrypt) 已加密檔案。
+```
+$ ansible-vault decrypt foo.yml
+```
+
+檢視已加密的檔案內容。
+```
+$ ansible-vault view foo.yml
+```
+
+#### 怎麼在 Playbooks 裡使用 Vault？
+
+把roles裡面的main.yml加密
+```
+$ ansible-vault encrypt tasks/main.yml
+New Vault password:
+Confirm New Vault password:
+Encryption successful
+```
+
+執行 Playbook 並搭配 --ask-vault-pass 參數手動輸入密碼。
+```
+$ ansible-playbook hello_world.yml --ask-vault-pass
+```
+
+或透過 ansible.cfg 啟用 ask_vault_pass，其預設值為 false。
+```
+$ vi ansible.cfg
+[defaults]
+ask_vault_pass = true
+```
+
 ## 參考文獻
 <a href="https://chusiang.gitbooks.io/automate-with-ansible/">凍仁翔的《現代 IT 人一定要知道的 Ansible 自動化組態技巧》</a>
 <br>
