@@ -137,24 +137,8 @@ node2 | SUCCESS => {
 
 #### 使用SSH公鑰憑證
 
-1. 將~/.ssh/id_rsa.pub傳給子節點server
 ```
-scp ~/.ssh/id_rsa.pub myremote@140.114.xxx.yyy:~/.ssh/xyz_key.pub
-```
-
-2. 將憑證納入 authorized_keys
-```
-cat ~/.ssh/xyz_key.pub >> ~/.ssh/authorized_keys
-```
-
-3. 調整authorized_keys的權限
-```
-chmod 400 ~/.ssh/authorized_keys
-```
-
-4. 重啟SSH Server
-```
-sudo service ssh restart
+ssh -i ~/.ssh/mykey user@host
 ```
 
 #### 使用命令控制子節點
